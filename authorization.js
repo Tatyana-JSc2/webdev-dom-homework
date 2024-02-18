@@ -12,6 +12,8 @@ const nameInputElement = document.getElementById("name-input");
 
 
 
+
+
 export function authorization() {
   const authorizationFormHtml = `<div class="add-form authorization" id="">
       <p class="authorization">Форма входа</p>
@@ -42,7 +44,7 @@ function authorizationEntrance() {
     login: loginInputElement.value,
     password: passwordInputElement.value,
   }*/);
-  
+
   
   authorizationInvisibleElement.classList.remove("loading-none");
   addFormInvisibleElement.classList.remove("loading-none");
