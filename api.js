@@ -13,9 +13,13 @@ const hostReg = 'https://wedev-api.sky.pro/api/user'
 
 
 export let token;
-
 export function setToken(newToken) {
   token = newToken;
+}
+
+export let UserName;
+export function setUserName(newName) {
+  UserName = newName;
 }
 
 
@@ -73,7 +77,7 @@ export function postComments(/*name,date,text,likesCounter,itLikes, original,ans
 
 
 //GET запрос на регистрацию
-export function registrationRequest(/*login, name, password*/) {
+export function registrationRequest() {
   const NameInputElement = document.getElementById("name-input");
   const loginInputElement = document.getElementById("login-input");
   const passwordInputElement = document.getElementById("password-input");
@@ -88,27 +92,13 @@ export function registrationRequest(/*login, name, password*/) {
   }).then((response) => {
     if (response.status === 500) {
       throw new Error("Сервер упал.");
-    } else if (response.status !== 201) {
-      throw new Error("Отсутствует интернет");
     } else if (response.status === 400) {
       throw new Error("неправильный логин или пароль");
+    } else if (response.status !== 201) {
+      throw new Error("Отсутствует интернет");
     } else {
       return response.json();
     };
-  }).then((responseData) => {
-    console.log(token);
-    setToken(responseData.user.token);
-    console.log(token);
-  }).catch((error) => {
-    if (error.message === "неправильный логин или пароль") {
-      alert("Пользователь с таким логином уже сущетсвует. Попробуйте еще раз!");
-    } else if (error.message === "Сервер упал.") {
-      authorizationReques();
-      //alert("Сервер упал. Попробуйте позже...");
-    } else {
-      alert("Что-то пошло не так, попробуйте позже...");
-    };
-    console.warn(error)
   });
 }
 

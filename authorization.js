@@ -1,14 +1,12 @@
-import { authorizationRequest, registrationRequest, token, setToken } from './api.js';
+import { authorizationRequest, registrationRequest, UserName, setUserName, token, setToken } from './api.js';
 
-
+import { nameInputElement } from './main.js';
 
 const startAuthorizationElement = document.getElementById("start-authorization");
 const authorizationInvisibleElement = document.getElementById("authorization-invisible");
 const addFormInvisibleElement = document.getElementById("add-form-invisible");
 const formAuthorizationElement = document.getElementById("form-authorization");
-//const loginInputElement = document.getElementById("login-input");
-//const passwordInputElement = document.getElementById("password-input");
-const nameInputElement = document.getElementById("name-input");
+
 
 
 
@@ -37,26 +35,23 @@ export function authorization() {
 startAuthorizationElement.addEventListener('click', authorization);
 
 
+
 function authorizationEntrance() {
   //const loginInputElement = document.getElementById("login-input");
- // const passwordInputElement = document.getElementById("password-input");
- authorizationRequest(/*{
+  // const passwordInputElement = document.getElementById("password-input");
+  authorizationRequest(/*{
     login: loginInputElement.value,
     password: passwordInputElement.value,
-  }*/);
+  }*/)
 
-  
   authorizationInvisibleElement.classList.remove("loading-none");
   addFormInvisibleElement.classList.remove("loading-none");
   startAuthorizationElement.classList.add("loading-none");
   formAuthorizationElement.classList.add("loading-none");
+
 }
 
 
-
-
-
-//const authorizationButtonElement = document.getElementById("authorization-button");
 
 function registration() {
   const authorizationFormHtml = `<div class="add-form authorization" id="">
@@ -78,22 +73,32 @@ function registration() {
   const registrationButtonElement = document.getElementById("registration-button");
   registrationButtonElement.addEventListener('click', registrationEntrance);
 }
-//authorizationButtonElement.addEventListener('click', registration);
 
 
 
 
 function registrationEntrance() {
-  //const NameInputElement = document.getElementById("name-input");
-    //const loginInputElement = document.getElementById("login-input");
-   // const passwordInputElement = document.getElementById("password-input");
-  registrationRequest(/*{
-    login: loginInputElement.value,
-    name: NameInputElement.value,
-    password: passwordInputElement.value,
-  }*/);
-  authorizationInvisibleElement.classList.remove("loading-none");
-  addFormInvisibleElement.classList.remove("loading-none");
-  startAuthorizationElement.classList.add("loading-none");
-  formAuthorizationElement.classList.add("loading-none");
+  registrationRequest().then((responseData) => {
+    console.log(token);
+    setToken(responseData.user.token);
+    console.log(token);
+    setUserName(responseData.user.name);
+    console.log(UserName);
+    authorizationInvisibleElement.classList.remove("loading-none");
+    addFormInvisibleElement.classList.remove("loading-none");
+    startAuthorizationElement.classList.add("loading-none");
+    formAuthorizationElement.classList.add("loading-none");
+    nameInputElement.value = UserName;
+  }).catch((error) => {
+    if (error.message === "неправильный логин или пароль") {
+      alert("Пользователь с таким логином уже сущетсвует. Попробуйте еще раз!");
+    } else if (error.message === "Сервер упал.") {
+      registrationRequest();
+      //alert("Сервер упал. Попробуйте позже...");
+    } else {
+      alert("Что-то пошло не так, попробуйте позже...");
+    };
+    console.warn(error);
+    registration();
+  });
 }

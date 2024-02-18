@@ -1,9 +1,9 @@
 
-import { getComments } from './api.js';
+import { getComments, /*UserName*/ } from './api.js';
 import { Render} from './render.js';
 import { buttonClick } from './addButton.js';
 import {  authorization} from './authorization.js';
-export { comments, fetchPromise };
+export { comments, fetchPromise, nameInputElement };
 
 
 //переменные для работы
@@ -30,6 +30,7 @@ waitElement.classList.add("edit-none");
 loadingElement.classList.add("loading-none");
 waitDeleteElement.classList.add("edit-none");
 addFormInvisibleElement.classList.add("loading-none");
+//nameInputElement.value = UserName;
 //formAuthorizationElement.classList.add("loading-none");
 
 
