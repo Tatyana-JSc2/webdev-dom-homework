@@ -43,6 +43,7 @@ function authorizationEntrance() {
     password: passwordInputElement.value,
   }*/);
   
+  
   authorizationInvisibleElement.classList.remove("loading-none");
   addFormInvisibleElement.classList.remove("loading-none");
   startAuthorizationElement.classList.add("loading-none");
