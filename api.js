@@ -86,8 +86,8 @@ export function registrationRequest() {
     method: "POST",
     body: JSON.stringify({
       login: loginInputElement.value,
-    name: NameInputElement.value,
-    password: passwordInputElement.value,
+      name: NameInputElement.value,
+      password: passwordInputElement.value,
     }),
   }).then((response) => {
     if (response.status === 500) {
@@ -106,40 +106,35 @@ export function registrationRequest() {
 export function authorizationRequest(/*login, password*/) {
   const loginInputElement = document.getElementById("login-input");
   const passwordInputElement = document.getElementById("password-input");
-
-  return fetch(hostReg, {
+  return fetch(`https://wedev-api.sky.pro/api/user/login`, {
     method: "POST",
     body: JSON.stringify({
       login: loginInputElement.value,
-    password: passwordInputElement.value,
+      password: passwordInputElement.value,
     }),
   }).then((response) => {
     if (response.status === 500) {
       throw new Error("Сервер упал.");
-    } else if (response.status !== 201) {
-      throw new Error("Отсутствует интернет");
     } else if (response.status === 400) {
       throw new Error("неправильный логин или пароль");
+    } else if (response.status !== 201) {
+      throw new Error("Отсутствует интернет");
     } else {
       return response.json();
     };
-  }).then((responseData) => {
-    console.log(token);
-    setToken(responseData.user.token);
-    console.log(token);
-  }).catch((error) => {
-    if (error.message === "неправильный логин или пароль") {
-      alert("Неправильный логин или пароль. Попробуйте еще раз!");
-    } else if (error.message === "Сервер упал.") {
-      authorizationReques();
-      //alert("Сервер упал. Попробуйте позже...");
-    } else {
-      alert("Что-то пошло не так, попробуйте позже...");
-    };
-    console.warn(error)
   });
 }
 
+
+//name: responseData.user.name,
+
+/*return fetch(hostReg, {
+  method: "GET",
+}).then((response) => {
+    return response.json();
+  }).then((responseData) => {
+    UserName = responseData.UserName;
+  }).then(() => {*/
 
 
 

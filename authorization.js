@@ -20,7 +20,6 @@ export function authorization() {
       <button class="add-form-button" id="authorization-button">Войти</button>
       <p class="authorization" id="authorization-click">Зарегистрироваться</p>
     </div>`;
-  ;
   formAuthorizationElement.innerHTML = authorizationFormHtml;
   authorizationInvisibleElement.classList.add("loading-none");
   addFormInvisibleElement.classList.add("loading-none");
@@ -30,25 +29,38 @@ export function authorization() {
 
   const authorizationButtonElement = document.getElementById("authorization-button");
   authorizationButtonElement.addEventListener('click', authorizationEntrance);
-
 }
 startAuthorizationElement.addEventListener('click', authorization);
 
 
-
 function authorizationEntrance() {
-  //const loginInputElement = document.getElementById("login-input");
-  // const passwordInputElement = document.getElementById("password-input");
-  authorizationRequest(/*{
-    login: loginInputElement.value,
-    password: passwordInputElement.value,
-  }*/)
+  authorizationRequest()
+    .then((responseData) => {
+      console.log(token);
+      setToken(responseData.user.token);
+      setUserName(responseData.user.name);
+      console.log(token);
+      authorizationsuccess();
+    }).catch((error) => {
+      if (error.message === "неправильный логин или пароль") {
+        alert("Неправильный логин или пароль. Попробуйте еще раз!");
+      } else if (error.message === "Сервер упал.") {
+        authorizationRequest();
+        //alert("Сервер упал. Попробуйте позже...");
+      } else {
+        alert("Что-то пошло не так, попробуйте позже...");
+      };
+      console.warn(error);
+      authorization();
+    });
+}
 
+function authorizationsuccess() {
   authorizationInvisibleElement.classList.remove("loading-none");
   addFormInvisibleElement.classList.remove("loading-none");
   startAuthorizationElement.classList.add("loading-none");
   formAuthorizationElement.classList.add("loading-none");
-
+  nameInputElement.value = UserName;
 }
 
 
@@ -84,11 +96,7 @@ function registrationEntrance() {
     console.log(token);
     setUserName(responseData.user.name);
     console.log(UserName);
-    authorizationInvisibleElement.classList.remove("loading-none");
-    addFormInvisibleElement.classList.remove("loading-none");
-    startAuthorizationElement.classList.add("loading-none");
-    formAuthorizationElement.classList.add("loading-none");
-    nameInputElement.value = UserName;
+    registrationsuccess();
   }).catch((error) => {
     if (error.message === "неправильный логин или пароль") {
       alert("Пользователь с таким логином уже сущетсвует. Попробуйте еще раз!");
@@ -101,4 +109,18 @@ function registrationEntrance() {
     console.warn(error);
     registration();
   });
+}
+
+function registrationsuccess() {
+  const authorizationFormHtml = `<div class="add-form authorization" id="">
+  <p class="authorization">${UserName}, Вы успешно зарегистрировались! Теперь Вы можете войти!</p>
+  <button class="add-form-button" id="authorization-button">Войти</button>
+</div>`;
+  formAuthorizationElement.innerHTML = authorizationFormHtml;
+  authorizationInvisibleElement.classList.add("loading-none");
+  addFormInvisibleElement.classList.add("loading-none");
+
+  const authorizationButtonElement = document.getElementById("authorization-button");
+  authorizationButtonElement.addEventListener('click', authorizationsuccess);
+
 }
