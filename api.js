@@ -44,12 +44,15 @@ export function getComments() {
 
 //POST запрос в API
 export function postComments() {
-  /*return fetch(hostReg, {
+  /*return fetch(host, {
     method: "GET",
+    headers: {
+      Autorisation: `Bearer ${token}`,
+    },
   }).then((response) => {
     return response.json();
   }).then((responseData) => {
-    return responseData; 
+    return responseData;
   }).then(() => {*/
   return fetch(host, {
     method: "POST",
@@ -128,13 +131,6 @@ export function authorizationRequest(/*login, password*/) {
     } else {
       return response.json();
     };
-  }).then((responseData) => {
-    console.log(token);
-    setToken(responseData.user.token);
-    setUserName(responseData.user.name);
-    console.log(token);
-    console.log(UserName);
-
   });
 }
 

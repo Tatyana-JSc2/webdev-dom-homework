@@ -1,8 +1,8 @@
 
 import { getComments, /*UserName*/ } from './api.js';
-import { Render} from './render.js';
+import { Render } from './render.js';
 import { buttonClick } from './addButton.js';
-import {  authorization} from './authorization.js';
+import { authorization } from './authorization.js';
 export { comments, fetchPromise, nameInputElement };
 
 
