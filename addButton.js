@@ -1,5 +1,5 @@
 
-import { postComments } from './api.js';
+import { postComments, token } from './api.js';
 import { fetchPromise} from './main.js';
 import { Render } from './render.js';
 
@@ -34,6 +34,7 @@ export function buttonClick() {
     DeleteButtonElement.classList.add("click-none");
     waitFormElement.classList.add("edit-none");
     waitElement.classList.remove("edit-none");
+    //waitElement.textContent = `${token}`;
     postComments({
       name: nameInputElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
       date: myDate.getDate() + ":" + (myDate.getMonth() + 1) +

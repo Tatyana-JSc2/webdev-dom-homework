@@ -58,6 +58,7 @@ const fetchPromise = () => {
     });
     comments = appComments;
     renderComments();
+
   }).catch((error) => {
     if (error.message === "Сервер упал.") {
       //alert("Сервер упал. Попробуйте позже...");

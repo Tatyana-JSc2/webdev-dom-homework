@@ -35,11 +35,12 @@ startAuthorizationElement.addEventListener('click', authorization);
 
 function authorizationEntrance() {
   authorizationRequest()
-    .then((responseData) => {
+    .then(()=>{/*((responseData) => {
       console.log(token);
       setToken(responseData.user.token);
       setUserName(responseData.user.name);
       console.log(token);
+      console.log(UserName);*/
       authorizationsuccess();
     }).catch((error) => {
       if (error.message === "неправильный логин или пароль") {
