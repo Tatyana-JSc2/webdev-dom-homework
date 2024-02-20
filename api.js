@@ -28,7 +28,7 @@ export function getComments() {
   return fetch(host, {
     method: "GET",
     headers: {
-      Autorisation: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
   }).then((response) => {
     if (response.status === 500) {
@@ -57,7 +57,7 @@ export function postComments() {
   return fetch(host, {
     method: "POST",
     headers: {
-      Autorisation: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
       name: nameInputElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
