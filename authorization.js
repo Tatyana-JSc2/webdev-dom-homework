@@ -1,5 +1,4 @@
 import { authorizationRequest, registrationRequest, UserName, setUserName, token, setToken } from './api.js';
-
 import { nameInputElement } from './main.js';
 
 const startAuthorizationElement = document.getElementById("start-authorization");
@@ -7,6 +6,7 @@ const authorizationInvisibleElement = document.getElementById("authorization-inv
 const addFormInvisibleElement = document.getElementById("add-form-invisible");
 const formAuthorizationElement = document.getElementById("form-authorization");
 
+//const myStorage = window.lokalStorage;
 
 
 
@@ -40,8 +40,10 @@ function authorizationEntrance() {
     .then((responseData) => {
       console.log(token);
       setToken(responseData.user.token);
-      setUserName(responseData.user.name);
       console.log(token);
+      setUserName(responseData.user.name);
+      let Token = responseData.user.token;
+      localStorage.setItem("token", Token);
       authorizationsuccess();
     }).catch((error) => {
       if (error.message === "неправильный логин или пароль") {
@@ -57,7 +59,7 @@ function authorizationEntrance() {
     });
 }
 
-function authorizationsuccess() {
+export function authorizationsuccess() {
   authorizationInvisibleElement.classList.remove("loading-none");
   addFormInvisibleElement.classList.remove("loading-none");
   startAuthorizationElement.classList.add("loading-none");

@@ -2,7 +2,7 @@
 import { getComments, /*UserName*/ } from './api.js';
 import { Render } from './render.js';
 import { buttonClick } from './addButton.js';
-import { authorization } from './authorization.js';
+import { authorizationsuccess} from './authorization.js';
 export { comments, fetchPromise, nameInputElement };
 
 
@@ -26,13 +26,20 @@ let originalComment = document.getElementById("comment-original");
 
 
 // классы для части разметки HTML, которая не рендерится из js
+
+function chekAuthorization() {
+  if (!localStorage.getItem("token")) {
 waitElement.classList.add("edit-none");
 loadingElement.classList.add("loading-none");
 waitDeleteElement.classList.add("edit-none");
 addFormInvisibleElement.classList.add("loading-none");
 //nameInputElement.value = UserName;
 //formAuthorizationElement.classList.add("loading-none");
-
+} else {
+  authorizationsuccess();
+};
+};
+chekAuthorization();
 
 //создание массива
 let comments = [
