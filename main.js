@@ -1,8 +1,9 @@
 
-import { getComments } from './api.js';
+import { getComments, /*UserName*/ } from './api.js';
 import { Render } from './render.js';
 import { buttonClick } from './addButton.js';
-export { comments, fetchPromise };
+import { authorizationsuccess} from './authorization.js';
+export { comments, fetchPromise, nameInputElement };
 
 
 //переменные для работы
@@ -18,15 +19,27 @@ const loadingElement = document.querySelector(".loading");
 const likesCounterElement = document.querySelector(".likes-counter");
 const likeButtonElement = document.querySelector(".like-button");
 const DeleteButtonElement = document.getElementById("delete-button");
+const addFormInvisibleElement = document.getElementById("add-form-invisible");
+//const formAuthorizationElement = document.getElementById("form-authorization");
 
 let originalComment = document.getElementById("comment-original");
 
 
 // классы для части разметки HTML, которая не рендерится из js
+
+function chekAuthorization() {
+  if (!localStorage.getItem("token")) {
 waitElement.classList.add("edit-none");
 loadingElement.classList.add("loading-none");
 waitDeleteElement.classList.add("edit-none");
-
+addFormInvisibleElement.classList.add("loading-none");
+//nameInputElement.value = UserName;
+//formAuthorizationElement.classList.add("loading-none");
+} else {
+  authorizationsuccess();
+};
+};
+chekAuthorization();
 
 //создание массива
 let comments = [
@@ -52,6 +65,7 @@ const fetchPromise = () => {
     });
     comments = appComments;
     renderComments();
+
   }).catch((error) => {
     if (error.message === "Сервер упал.") {
       //alert("Сервер упал. Попробуйте позже...");
@@ -183,6 +197,7 @@ function renderComments() {
 waitFetchPromise();
 renderComments();
 InitDeleteComment();
+//authorization();
 
 
 
